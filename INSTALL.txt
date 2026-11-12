@@ -11,8 +11,9 @@ INSTALLATION STEPS:
 2. VERIFY FILE STRUCTURE
    Your EmoteHub folder should contain:
    - EmoteHub.toc
+   - Localization.lua
    - EmoteHub.lua
-
+   - EmoteHub_Options.lua
    - README.md
    - INSTALL.txt (this file)
    - Textures\ (folder for your custom TGA images)

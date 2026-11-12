@@ -13,6 +13,22 @@ A customizable emote action bar addon for World of Warcraft that allows you to q
 - Always-visible toggle button for easy access
 - Hover tooltips showing emote names and commands
 
+## Localization
+
+EmoteHub follows the World of Warcraft client language automatically when the addon loads. It currently includes:
+
+- `enUS` as the default and fallback language (`enGB` also uses this table)
+- `zhCN`
+
+If a translation key is missing from the selected language, EmoteHub falls back to `enUS` and then to the key name without showing an error.
+
+To add another language:
+
+1. Open `Localization.lua`.
+2. Add a table named with the exact `GetLocale()` value, such as `deDE`, next to the `enUS` and `zhCN` tables.
+3. Copy every key from `enUS` into the new table and translate only the values. Keep format placeholders such as `%d` and `%s`, color codes, command names, and layout identifiers unchanged.
+4. Save the file and run `/reload`. No TOC change, slash command, SavedVariables field, or build step is required.
+
 ## Installation
 
 1. Extract the EmoteHub folder to your World of Warcraft addons directory:
@@ -176,8 +192,10 @@ EmoteHub supports three button size options:
 ## File Structure
 
 EmoteHub/
-├── EmoteHub.toc          # Addon metadata
+├── EmoteHub.toc          # Addon metadata and load order
+├── Localization.lua      # Language selection and translations
 ├── EmoteHub.lua          # Main addon logic
+├── EmoteHub_Options.lua  # Interface options panel
 ├── README.md             # This file
 └── Textures/             # Icon folder
 

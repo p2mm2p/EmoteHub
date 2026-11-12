@@ -17,5 +17,6 @@
 ## X-Max-Interface: 129999
 ## LoadOnDemand: 0
 
+Localization.lua
 EmoteHub.lua
 EmoteHub_Options.lua

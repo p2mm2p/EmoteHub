@@ -2,6 +2,7 @@
 -- Configuration panel for EmoteHub
 
 local addonName, addonTable = ...
+local T = addonTable.T
 -- Create the panel frame
 local OptionsPanel = CreateFrame("Frame", "EmoteHubOptionsPanel", InterfaceOptionsFramePanelContainer)
 OptionsPanel.name = "EmoteHub"
@@ -25,11 +26,11 @@ end
 -- Function to initialize the options panel
 local function InitializeOptions()
     -- Title
-    local title = CreateTitle(OptionsPanel, "EmoteHub Options")
-    local subTitle = CreateLabel(OptionsPanel, "Configure EmoteHub layout and appearance.", title, 0, -10)
+    local title = CreateTitle(OptionsPanel, T("options.title"))
+    local subTitle = CreateLabel(OptionsPanel, T("options.subtitle"), title, 0, -10)
 
     -- Layout Section
-    local layoutLabel = CreateLabel(OptionsPanel, "Layout Style:", subTitle, 0, -20)
+    local layoutLabel = CreateLabel(OptionsPanel, T("options.layout.label"), subTitle, 0, -20)
 
     -- Layout Dropdown
     local layoutDropdown = CreateFrame("Frame", "EmoteHubLayoutDropdown", OptionsPanel, "UIDropDownMenuTemplate")
@@ -57,19 +58,19 @@ local function InitializeOptions()
     local function LayoutDropdown_Initialize(self, level)
         local info = UIDropDownMenu_CreateInfo()
         
-        info.text = "Grid (Flexible Columns)"
+        info.text = T("options.layout.grid")
         info.value = "grid"
         info.func = LayoutDropdown_OnClick
         info.checked = nil  -- Don't show radio button
         UIDropDownMenu_AddButton(info)
         
-        info.text = "Horizontal Bar"
+        info.text = T("options.layout.horizontal")
         info.value = "horizontal"
         info.func = LayoutDropdown_OnClick
         info.checked = nil  -- Don't show radio button
         UIDropDownMenu_AddButton(info)
         
-        info.text = "Vertical Bar"
+        info.text = T("options.layout.vertical")
         info.value = "vertical"
         info.func = LayoutDropdown_OnClick
         info.checked = nil  -- Don't show radio button
@@ -89,14 +90,14 @@ local function InitializeOptions()
     gridSlider:SetObeyStepOnDrag(true)
     _G[gridSlider:GetName() .. 'Low']:SetText('1')
     _G[gridSlider:GetName() .. 'High']:SetText('17')
-    _G[gridSlider:GetName() .. 'Text']:SetText('Grid Columns')
+    _G[gridSlider:GetName() .. 'Text']:SetText(T("options.grid_columns.label"))
 
     gridSlider:SetScript("OnValueChanged", function(self, value)
         value = math.floor(value)
         if EmoteHub.GetGridColumns and EmoteHub.GetGridColumns() ~= value then
             EmoteHub.SetGridColumns(value)
         end
-        _G[self:GetName() .. 'Text']:SetText('Grid Columns: ' .. value)
+        _G[self:GetName() .. 'Text']:SetText(T("options.grid_columns.value", value))
     end)
 
     -- Button Size Slider
@@ -108,14 +109,14 @@ local function InitializeOptions()
     sizeSlider:SetObeyStepOnDrag(true)
     _G[sizeSlider:GetName() .. 'Low']:SetText('16')
     _G[sizeSlider:GetName() .. 'High']:SetText('64')
-    _G[sizeSlider:GetName() .. 'Text']:SetText('Button Size')
+    _G[sizeSlider:GetName() .. 'Text']:SetText(T("options.button_size.label"))
 
     sizeSlider:SetScript("OnValueChanged", function(self, value)
         value = math.floor(value)
         if EmoteHub.GetButtonSize and EmoteHub.GetButtonSize() ~= value then
             EmoteHub.SetButtonSize(value)
         end
-        _G[self:GetName() .. 'Text']:SetText('Button Size: ' .. value)
+        _G[self:GetName() .. 'Text']:SetText(T("options.button_size.value", value))
     end)
 
     -- Reset Button
@@ -123,7 +124,7 @@ local function InitializeOptions()
     -- Adjusted anchor since Scale/Alpha are gone
     resetButton:SetPoint("TOPLEFT", sizeSlider, "BOTTOMLEFT", 0, -40)
     resetButton:SetSize(120, 25)
-    resetButton:SetText("Reset Position")
+    resetButton:SetText(T("options.reset_position"))
     resetButton:SetScript("OnClick", function()
         EmoteHub.Reset()
     end)
@@ -135,11 +136,11 @@ local function InitializeOptions()
         UIDropDownMenu_SetSelectedValue(layoutDropdown, currentLayout)
         
         -- Set dropdown text based on current layout
-        local layoutText = "Grid (Flexible Columns)"
+        local layoutText = T("options.layout.grid")
         if currentLayout == "horizontal" then
-            layoutText = "Horizontal Bar"
+            layoutText = T("options.layout.horizontal")
         elseif currentLayout == "vertical" then
-            layoutText = "Vertical Bar"
+            layoutText = T("options.layout.vertical")
         end
         UIDropDownMenu_SetText(layoutDropdown, layoutText)
         
@@ -158,14 +159,14 @@ local function InitializeOptions()
         if EmoteHub.GetGridColumns then
             local cols = EmoteHub.GetGridColumns()
             gridSlider:SetValue(cols)
-            _G[gridSlider:GetName() .. 'Text']:SetText('Grid Columns: ' .. cols)
+            _G[gridSlider:GetName() .. 'Text']:SetText(T("options.grid_columns.value", cols))
         end
 
         -- Button Size
         if EmoteHub.GetButtonSize then
             local size = EmoteHub.GetButtonSize()
             sizeSlider:SetValue(size)
-            _G[sizeSlider:GetName() .. 'Text']:SetText('Button Size: ' .. size)
+            _G[sizeSlider:GetName() .. 'Text']:SetText(T("options.button_size.value", size))
         end
     end
 

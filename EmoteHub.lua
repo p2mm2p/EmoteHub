@@ -3,7 +3,9 @@
 -- An emote action bar for World of Warcraft
 
 -- Addon namespace
-EmoteHub = EmoteHub or {}
+local addonName, addonTable = ...
+EmoteHub = addonTable
+local T = EmoteHub.T
 
 -- Local variables
 local frame = nil
@@ -14,22 +16,22 @@ local FALLBACK_ICON = "Interface\\Icons\\INV_Misc_QuestionMark"
 
 -- Default emotes list (16 emotes for 4x4 grid) with game icon fallbacks
 local defaultEmotes = {
-    { name = "Wave",   command = "/wave",   icon = "Interface\\AddOns\\EmoteHub\\Textures\\wave",   fallback = "Interface\\Icons\\Ability_Warrior_RallyingCry" },
-    { name = "Yes",    command = "/yes",    icon = "Interface\\AddOns\\EmoteHub\\Textures\\yes",    fallback = "Interface\\Icons\\Ability_Warrior_Revenge" },
-    { name = "Thank",  command = "/thank",  icon = "Interface\\AddOns\\EmoteHub\\Textures\\thank",  fallback = "Interface\\Icons\\Spell_Holy_Heal" },
-    { name = "Cheer",  command = "/cheer",  icon = "Interface\\AddOns\\EmoteHub\\Textures\\cheer",  fallback = "Interface\\Icons\\Spell_Holy_BlessingOfStamina" },
-    { name = "Laugh",  command = "/laugh",  icon = "Interface\\AddOns\\EmoteHub\\Textures\\laugh",  fallback = "Interface\\Icons\\INV_Misc_Food_41" },
-    { name = "Cry",    command = "/cry",    icon = "Interface\\AddOns\\EmoteHub\\Textures\\cry",    fallback = "Interface\\Icons\\Spell_Frost_ChillingBlast" },
-    { name = "Bow",    command = "/bow",    icon = "Interface\\AddOns\\EmoteHub\\Textures\\bow",    fallback = "Interface\\Icons\\Ability_Warrior_DefensiveStance" },
-    { name = "Point",  command = "/point",  icon = "Interface\\AddOns\\EmoteHub\\Textures\\point",  fallback = "Interface\\Icons\\Ability_Hunter_MarkedForDeath" },
-    { name = "Salute", command = "/salute", icon = "Interface\\AddOns\\EmoteHub\\Textures\\salute", fallback = "Interface\\Icons\\INV_Banner_03" },
-    { name = "Sit",    command = "/sit",    icon = "Interface\\AddOns\\EmoteHub\\Textures\\sit",    fallback = "Interface\\Icons\\Ability_Mount_MountainRam" },
-    { name = "Sleep",  command = "/sleep",  icon = "Interface\\AddOns\\EmoteHub\\Textures\\sleep",  fallback = "Interface\\Icons\\Spell_Nature_Sleep" },
-    { name = "Shy",    command = "/shy",    icon = "Interface\\AddOns\\EmoteHub\\Textures\\shy",    fallback = "Interface\\Icons\\Ability_Rogue_Vanish" },
-    { name = "Kiss",   command = "/kiss",   icon = "Interface\\AddOns\\EmoteHub\\Textures\\kiss",   fallback = "Interface\\Icons\\INV_Misc_Food_24" },
-    { name = "Flirt",  command = "/flirt",  icon = "Interface\\AddOns\\EmoteHub\\Textures\\flirt",  fallback = "Interface\\Icons\\INV_Misc_Flower_04" },
-    { name = "Hug",    command = "/hug",    icon = "Interface\\AddOns\\EmoteHub\\Textures\\hug",    fallback = "Interface\\Icons\\Spell_Holy_GreaterHeal" },
-    { name = "Dance",  command = "/dance",  icon = "Interface\\AddOns\\EmoteHub\\Textures\\dance",  fallback = "Interface\\Icons\\INV_Misc_Drum_05" },
+    { nameKey = "emote.wave",   command = "/wave",   icon = "Interface\\AddOns\\EmoteHub\\Textures\\wave",   fallback = "Interface\\Icons\\Ability_Warrior_RallyingCry" },
+    { nameKey = "emote.yes",    command = "/yes",    icon = "Interface\\AddOns\\EmoteHub\\Textures\\yes",    fallback = "Interface\\Icons\\Ability_Warrior_Revenge" },
+    { nameKey = "emote.thank",  command = "/thank",  icon = "Interface\\AddOns\\EmoteHub\\Textures\\thank",  fallback = "Interface\\Icons\\Spell_Holy_Heal" },
+    { nameKey = "emote.cheer",  command = "/cheer",  icon = "Interface\\AddOns\\EmoteHub\\Textures\\cheer",  fallback = "Interface\\Icons\\Spell_Holy_BlessingOfStamina" },
+    { nameKey = "emote.laugh",  command = "/laugh",  icon = "Interface\\AddOns\\EmoteHub\\Textures\\laugh",  fallback = "Interface\\Icons\\INV_Misc_Food_41" },
+    { nameKey = "emote.cry",    command = "/cry",    icon = "Interface\\AddOns\\EmoteHub\\Textures\\cry",    fallback = "Interface\\Icons\\Spell_Frost_ChillingBlast" },
+    { nameKey = "emote.bow",    command = "/bow",    icon = "Interface\\AddOns\\EmoteHub\\Textures\\bow",    fallback = "Interface\\Icons\\Ability_Warrior_DefensiveStance" },
+    { nameKey = "emote.point",  command = "/point",  icon = "Interface\\AddOns\\EmoteHub\\Textures\\point",  fallback = "Interface\\Icons\\Ability_Hunter_MarkedForDeath" },
+    { nameKey = "emote.salute", command = "/salute", icon = "Interface\\AddOns\\EmoteHub\\Textures\\salute", fallback = "Interface\\Icons\\INV_Banner_03" },
+    { nameKey = "emote.sit",    command = "/sit",    icon = "Interface\\AddOns\\EmoteHub\\Textures\\sit",    fallback = "Interface\\Icons\\Ability_Mount_MountainRam" },
+    { nameKey = "emote.sleep",  command = "/sleep",  icon = "Interface\\AddOns\\EmoteHub\\Textures\\sleep",  fallback = "Interface\\Icons\\Spell_Nature_Sleep" },
+    { nameKey = "emote.shy",    command = "/shy",    icon = "Interface\\AddOns\\EmoteHub\\Textures\\shy",    fallback = "Interface\\Icons\\Ability_Rogue_Vanish" },
+    { nameKey = "emote.kiss",   command = "/kiss",   icon = "Interface\\AddOns\\EmoteHub\\Textures\\kiss",   fallback = "Interface\\Icons\\INV_Misc_Food_24" },
+    { nameKey = "emote.flirt",  command = "/flirt",  icon = "Interface\\AddOns\\EmoteHub\\Textures\\flirt",  fallback = "Interface\\Icons\\INV_Misc_Flower_04" },
+    { nameKey = "emote.hug",    command = "/hug",    icon = "Interface\\AddOns\\EmoteHub\\Textures\\hug",    fallback = "Interface\\Icons\\Spell_Holy_GreaterHeal" },
+    { nameKey = "emote.dance",  command = "/dance",  icon = "Interface\\AddOns\\EmoteHub\\Textures\\dance",  fallback = "Interface\\Icons\\INV_Misc_Drum_05" },
 }
 
 -- Default saved variables
@@ -214,12 +216,12 @@ local function CreateToggleButton()
     toggleButton:SetScript("OnEnter", function(self)
         local layout = EmoteHubDB.layout or "grid"
         GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-        GameTooltip:SetText("EmoteHub Toggle", 1, 1, 1)
-        GameTooltip:AddLine("Left-click: Show/Hide EmoteHub", 0.8, 0.8, 0.8)
-        GameTooltip:AddLine("Right-click drag: Move EmoteHub", 0.8, 0.8, 0.8)
+        GameTooltip:SetText(T("tooltip.toggle.title"), 1, 1, 1)
+        GameTooltip:AddLine(T("tooltip.toggle.show_hide"), 0.8, 0.8, 0.8)
+        GameTooltip:AddLine(T("tooltip.toggle.move"), 0.8, 0.8, 0.8)
         if layout == "grid" then
             local gridColumns = EmoteHubDB.gridColumns or 4
-            GameTooltip:AddLine("Grid: " .. gridColumns .. " columns", 0.7, 0.7, 0.7)
+            GameTooltip:AddLine(T("tooltip.toggle.grid", gridColumns), 0.7, 0.7, 0.7)
         end
     end)
 
@@ -334,7 +336,7 @@ local function CreateButtons()
             end)
 
             -- Store emote data
-            button.emoteName = emote.name
+            button.emoteNameKey = emote.nameKey
             button.emoteCommand = emote.command
             button:SetAlpha(1.0)
 
@@ -349,11 +351,11 @@ local function CreateButtons()
 
         -- Tooltip handlers
         button:SetScript("OnEnter", function(self)
-            if self.emoteName then
+            if self.emoteNameKey then
                 GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-                GameTooltip:SetText(self.emoteName, 1, 1, 1)
+                GameTooltip:SetText(T(self.emoteNameKey), 1, 1, 1)
                 GameTooltip:AddLine(self.emoteCommand, 0.8, 0.8, 0.8)
-                GameTooltip:AddLine("Click to use emote", 0, 1, 0)
+                GameTooltip:AddLine(T("tooltip.emote.use"), 0, 1, 0)
                 GameTooltip:Show()
             end
         end)
@@ -375,7 +377,7 @@ end
 -- Update layout and recreate UI
 local function UpdateLayout(newLayout)
     if not newLayout or (newLayout ~= "grid" and newLayout ~= "horizontal" and newLayout ~= "vertical") then
-        print("|cFF00FF00EmoteHub|r: Invalid layout. Use 'grid', 'horizontal', or 'vertical'.")
+        print("|cFF00FF00EmoteHub|r: " .. T("chat.invalid_layout"))
         return
     end
 
@@ -419,7 +421,7 @@ local function UpdateLayout(newLayout)
         frame:SetAlpha(EmoteHubDB.alpha or 1.0)
     end
 
-    print("|cFF00FF00EmoteHub|r: Layout changed to " .. newLayout)
+    print("|cFF00FF00EmoteHub|r: " .. T("chat.layout_changed", newLayout))
 end
 
 -- Ensure toggle button is always visible regardless of frame state
@@ -556,85 +558,85 @@ local function HandleSlashCommand(msg)
         UpdateLayout("vertical")
     elseif command == "layout" then
         local currentLayout = EmoteHubDB.layout or "grid"
-        print("|cFF00FF00EmoteHub|r: Current layout is '" .. currentLayout .. "'")
+        print("|cFF00FF00EmoteHub|r: " .. T("chat.current_layout", currentLayout))
         if currentLayout == "grid" then
             local gridColumns = EmoteHubDB.gridColumns or 4
-            print("Grid size: " .. gridColumns .. " columns")
+            print(T("chat.grid_size", gridColumns))
         end
-        print("Available layouts: grid, horizontal, vertical")
+        print(T("chat.available_layouts"))
     elseif command == "small" then
         EmoteHubDB.buttonSize = 32
         UpdateLayout(EmoteHubDB.layout or "grid")
-        print("|cFF00FF00EmoteHub|r: Button size set to small (32px)")
+        print("|cFF00FF00EmoteHub|r: " .. T("chat.button_size.small"))
     elseif command == "large" then
         EmoteHubDB.buttonSize = 40
         UpdateLayout(EmoteHubDB.layout or "grid")
-        print("|cFF00FF00EmoteHub|r: Button size set to large (40px)")
+        print("|cFF00FF00EmoteHub|r: " .. T("chat.button_size.large"))
     elseif command == "normal" then
         EmoteHubDB.buttonSize = 36
         UpdateLayout(EmoteHubDB.layout or "grid")
-        print("|cFF00FF00EmoteHub|r: Button size set to normal (36px)")
+        print("|cFF00FF00EmoteHub|r: " .. T("chat.button_size.normal"))
     elseif command == "size" then
         local currentSize = EmoteHubDB.buttonSize or 36
-        print("|cFF00FF00EmoteHub|r: Current button size is " .. currentSize .. "px")
-        print("Available sizes: small (32px), normal (36px), large (40px)")
+        print("|cFF00FF00EmoteHub|r: " .. T("chat.button_size.current", currentSize))
+        print(T("chat.button_size.available"))
     elseif string.match(command, "^grid%s+(%d+)$") then
         local columns = tonumber(string.match(command, "^grid%s+(%d+)$"))
         if columns and columns >= 1 and columns <= 17 then
             EmoteHubDB.gridColumns = columns
             UpdateLayout("grid")
         else
-            print("|cFF00FF00EmoteHub|r: Invalid grid size. Use 1-17 columns (e.g., /eh grid 4, /eh grid 5)")
+            print("|cFF00FF00EmoteHub|r: " .. T("chat.invalid_grid_size"))
         end
     elseif command == "small" then
         EmoteHubDB.buttonSize = 32
         UpdateLayout(EmoteHubDB.layout or "grid")
-        print("|cFF00FF00EmoteHub|r: Button size set to small (32px)")
+        print("|cFF00FF00EmoteHub|r: " .. T("chat.button_size.small"))
     elseif command == "large" then
         EmoteHubDB.buttonSize = 40
         UpdateLayout(EmoteHubDB.layout or "grid")
-        print("|cFF00FF00EmoteHub|r: Button size set to large (40px)")
+        print("|cFF00FF00EmoteHub|r: " .. T("chat.button_size.large"))
     elseif command == "normal" then
         EmoteHubDB.buttonSize = 36
         UpdateLayout(EmoteHubDB.layout or "grid")
-        print("|cFF00FF00EmoteHub|r: Button size set to normal (36px)")
+        print("|cFF00FF00EmoteHub|r: " .. T("chat.button_size.normal"))
     elseif command == "size" then
         local currentSize = EmoteHubDB.buttonSize or 36
-        print("|cFF00FF00EmoteHub|r: Current button size is " .. currentSize .. "px")
-        print("Available sizes: small (32px), normal (36px), large (40px)")
+        print("|cFF00FF00EmoteHub|r: " .. T("chat.button_size.current", currentSize))
+        print(T("chat.button_size.available"))
     elseif command == "position" then
         -- Show current frame position
         if frame then
             local point, relativeTo, relativePoint, xOfs, yOfs = frame:GetPoint()
-            print("|cFF00FF00EmoteHub|r: Current frame position - " ..
-                (point or "CENTER") .. " " .. (xOfs or 0) .. ", " .. (yOfs or 0))
+            print("|cFF00FF00EmoteHub|r: " ..
+                T("chat.position.current", point or "CENTER", xOfs or 0, yOfs or 0))
         end
         -- Also show saved position
         local pos = EmoteHubDB.framePosition
         if pos and pos.point then
-            print("|cFF00FF00EmoteHub|r: Saved position - " ..
-                pos.point .. " " .. (pos.xOfs or 0) .. ", " .. (pos.yOfs or 0))
+            print("|cFF00FF00EmoteHub|r: " ..
+                T("chat.position.saved", pos.point, pos.xOfs or 0, pos.yOfs or 0))
         else
-            print("|cFF00FF00EmoteHub|r: No saved position (using default center)")
+            print("|cFF00FF00EmoteHub|r: " .. T("chat.position.none"))
         end
     elseif command == "help" or command == "?" then
-        print("|cFF00FF00EmoteHub|r Commands:")
-        print("  |cFFFFFF00/emotehub|r or |cFFFFFF00/eh|r - Toggle visibility")
-        print("  |cFFFFFF00/emotehub show|r - Show EmoteHub")
-        print("  |cFFFFFF00/emotehub hide|r - Hide EmoteHub (toggle button stays visible)")
-        print("  |cFFFFFF00/emotehub reset|r - Reset position")
-        print("  |cFFFFFF00/emotehub grid|r - Set grid layout (default 4 columns)")
-        print("  |cFFFFFF00/emotehub grid <number>|r - Set grid with specific columns (1-17)")
-        print("  |cFFFFFF00/emotehub horizontal|r - Set horizontal linear layout")
-        print("  |cFFFFFF00/emotehub vertical|r - Set vertical linear layout")
-        print("  |cFFFFFF00/emotehub layout|r - Show current layout and grid size")
-        print("  |cFFFFFF00/emotehub small|r - Set small button size (32px)")
-        print("  |cFFFFFF00/emotehub normal|r - Set normal button size (36px)")
-        print("  |cFFFFFF00/emotehub large|r - Set large button size (40px)")
-        print("  |cFFFFFF00/emotehub size|r - Show current button size")
-        print("  |cFFFFFF00/emotehub position|r - Show current saved position")
-        print("  |cFFFFFF00/emotehub help|r - Show this help")
-        print("  |cFF888888Note: Toggle button is always visible|r")
+        print("|cFF00FF00EmoteHub|r " .. T("chat.help.header"))
+        print("  " .. T("chat.help.toggle"))
+        print("  " .. T("chat.help.show"))
+        print("  " .. T("chat.help.hide"))
+        print("  " .. T("chat.help.reset"))
+        print("  " .. T("chat.help.grid"))
+        print("  " .. T("chat.help.grid_columns"))
+        print("  " .. T("chat.help.horizontal"))
+        print("  " .. T("chat.help.vertical"))
+        print("  " .. T("chat.help.layout"))
+        print("  " .. T("chat.help.small"))
+        print("  " .. T("chat.help.normal"))
+        print("  " .. T("chat.help.large"))
+        print("  " .. T("chat.help.size"))
+        print("  " .. T("chat.help.position"))
+        print("  " .. T("chat.help.help"))
+        print("  " .. T("chat.help.note"))
     else
         -- Silent for unknown commands
     end
