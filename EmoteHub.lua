@@ -15,6 +15,7 @@ local toggleButton = nil
 local FALLBACK_ICON = "Interface\\Icons\\INV_Misc_QuestionMark"
 
 -- Default emotes list (16 emotes for 4x4 grid) with game icon fallbacks
+-- stylua: ignore
 local defaultEmotes = {
     { nameKey = "emote.wave",   command = "/wave",   icon = "Interface\\AddOns\\EmoteHub\\Textures\\wave",   fallback = "Interface\\Icons\\Ability_Warrior_RallyingCry" },
     { nameKey = "emote.yes",    command = "/yes",    icon = "Interface\\AddOns\\EmoteHub\\Textures\\yes",    fallback = "Interface\\Icons\\Ability_Warrior_Revenge" },
@@ -41,7 +42,7 @@ local defaultSettings = {
         relativeTo = "UIParent",
         relativePoint = "CENTER",
         xOfs = 0,
-        yOfs = 0
+        yOfs = 0,
     },
     isVisible = true,
     buttonSize = 36,
@@ -49,7 +50,7 @@ local defaultSettings = {
     scale = 1.0,
     alpha = 1.0,
     layout = "grid", -- "grid", "horizontal", "vertical"
-    gridColumns = 4
+    gridColumns = 4,
 }
 
 -- Simple texture loading with immediate fallback support
@@ -109,6 +110,7 @@ local function GetFrameDimensions()
     local layout = EmoteHubDB.layout or "grid"
     local frameWidth, frameHeight
 
+    -- stylua: ignore
     if layout == "horizontal" then
         frameWidth = (17 * buttonSize) + (16 * spacing) -- 17 buttons (16 + toggle) + 16 spaces between
         frameHeight = buttonSize
@@ -283,6 +285,7 @@ local function CreateButtons()
 
         -- Calculate position based on layout
         local x, y
+        -- stylua: ignore
         if layout == "horizontal" then
             -- Single row, 16 columns (offset by 1 to account for toggle button)
             x = i * (buttonSize + spacing) -- i instead of (i-1) to leave space for toggle
@@ -449,7 +452,7 @@ function SaveFramePosition()
             relativeTo = "UIParent",
             relativePoint = relativePoint or "CENTER",
             xOfs = xOfs or 0,
-            yOfs = yOfs or 0
+            yOfs = yOfs or 0,
         }
     end
 end
@@ -608,14 +611,12 @@ local function HandleSlashCommand(msg)
         -- Show current frame position
         if frame then
             local point, relativeTo, relativePoint, xOfs, yOfs = frame:GetPoint()
-            print("|cFF00FF00EmoteHub|r: " ..
-                T("chat.position.current", point or "CENTER", xOfs or 0, yOfs or 0))
+            print("|cFF00FF00EmoteHub|r: " .. T("chat.position.current", point or "CENTER", xOfs or 0, yOfs or 0))
         end
         -- Also show saved position
         local pos = EmoteHubDB.framePosition
         if pos and pos.point then
-            print("|cFF00FF00EmoteHub|r: " ..
-                T("chat.position.saved", pos.point, pos.xOfs or 0, pos.yOfs or 0))
+            print("|cFF00FF00EmoteHub|r: " .. T("chat.position.saved", pos.point, pos.xOfs or 0, pos.yOfs or 0))
         else
             print("|cFF00FF00EmoteHub|r: " .. T("chat.position.none"))
         end

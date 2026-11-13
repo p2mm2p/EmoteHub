@@ -35,14 +35,14 @@ local function InitializeOptions()
     -- Layout Dropdown
     local layoutDropdown = CreateFrame("Frame", "EmoteHubLayoutDropdown", OptionsPanel, "UIDropDownMenuTemplate")
     layoutDropdown:SetPoint("TOPLEFT", layoutLabel, "BOTTOMLEFT", -15, -8)
-    
+
     local gridSlider -- Pre-declare for visibility
-    
+
     -- Dropdown menu items
     local function LayoutDropdown_OnClick(self)
         UIDropDownMenu_SetSelectedValue(layoutDropdown, self.value)
         EmoteHub.SetLayout(self.value)
-        
+
         -- Update slider state
         if gridSlider then
             if self.value == "grid" then
@@ -54,29 +54,29 @@ local function InitializeOptions()
             end
         end
     end
-    
+
     local function LayoutDropdown_Initialize(self, level)
         local info = UIDropDownMenu_CreateInfo()
-        
+
         info.text = T("options.layout.grid")
         info.value = "grid"
         info.func = LayoutDropdown_OnClick
-        info.checked = nil  -- Don't show radio button
+        info.checked = nil -- Don't show radio button
         UIDropDownMenu_AddButton(info)
-        
+
         info.text = T("options.layout.horizontal")
         info.value = "horizontal"
         info.func = LayoutDropdown_OnClick
-        info.checked = nil  -- Don't show radio button
+        info.checked = nil -- Don't show radio button
         UIDropDownMenu_AddButton(info)
-        
+
         info.text = T("options.layout.vertical")
         info.value = "vertical"
         info.func = LayoutDropdown_OnClick
-        info.checked = nil  -- Don't show radio button
+        info.checked = nil -- Don't show radio button
         UIDropDownMenu_AddButton(info)
     end
-    
+
     UIDropDownMenu_Initialize(layoutDropdown, LayoutDropdown_Initialize)
     UIDropDownMenu_SetWidth(layoutDropdown, 160)
     UIDropDownMenu_SetButtonWidth(layoutDropdown, 180)
@@ -88,16 +88,16 @@ local function InitializeOptions()
     gridSlider:SetMinMaxValues(1, 17)
     gridSlider:SetValueStep(1)
     gridSlider:SetObeyStepOnDrag(true)
-    _G[gridSlider:GetName() .. 'Low']:SetText('1')
-    _G[gridSlider:GetName() .. 'High']:SetText('17')
-    _G[gridSlider:GetName() .. 'Text']:SetText(T("options.grid_columns.label"))
+    _G[gridSlider:GetName() .. "Low"]:SetText("1")
+    _G[gridSlider:GetName() .. "High"]:SetText("17")
+    _G[gridSlider:GetName() .. "Text"]:SetText(T("options.grid_columns.label"))
 
     gridSlider:SetScript("OnValueChanged", function(self, value)
         value = math.floor(value)
         if EmoteHub.GetGridColumns and EmoteHub.GetGridColumns() ~= value then
             EmoteHub.SetGridColumns(value)
         end
-        _G[self:GetName() .. 'Text']:SetText(T("options.grid_columns.value", value))
+        _G[self:GetName() .. "Text"]:SetText(T("options.grid_columns.value", value))
     end)
 
     -- Button Size Slider
@@ -107,16 +107,16 @@ local function InitializeOptions()
     sizeSlider:SetMinMaxValues(16, 64)
     sizeSlider:SetValueStep(2)
     sizeSlider:SetObeyStepOnDrag(true)
-    _G[sizeSlider:GetName() .. 'Low']:SetText('16')
-    _G[sizeSlider:GetName() .. 'High']:SetText('64')
-    _G[sizeSlider:GetName() .. 'Text']:SetText(T("options.button_size.label"))
+    _G[sizeSlider:GetName() .. "Low"]:SetText("16")
+    _G[sizeSlider:GetName() .. "High"]:SetText("64")
+    _G[sizeSlider:GetName() .. "Text"]:SetText(T("options.button_size.label"))
 
     sizeSlider:SetScript("OnValueChanged", function(self, value)
         value = math.floor(value)
         if EmoteHub.GetButtonSize and EmoteHub.GetButtonSize() ~= value then
             EmoteHub.SetButtonSize(value)
         end
-        _G[self:GetName() .. 'Text']:SetText(T("options.button_size.value", value))
+        _G[self:GetName() .. "Text"]:SetText(T("options.button_size.value", value))
     end)
 
     -- Reset Button
@@ -134,7 +134,7 @@ local function InitializeOptions()
         -- Layout
         local currentLayout = EmoteHub.GetLayout()
         UIDropDownMenu_SetSelectedValue(layoutDropdown, currentLayout)
-        
+
         -- Set dropdown text based on current layout
         local layoutText = T("options.layout.grid")
         if currentLayout == "horizontal" then
@@ -143,7 +143,7 @@ local function InitializeOptions()
             layoutText = T("options.layout.vertical")
         end
         UIDropDownMenu_SetText(layoutDropdown, layoutText)
-        
+
         -- Update slider state
         if gridSlider then
             if currentLayout == "grid" then
@@ -159,14 +159,14 @@ local function InitializeOptions()
         if EmoteHub.GetGridColumns then
             local cols = EmoteHub.GetGridColumns()
             gridSlider:SetValue(cols)
-            _G[gridSlider:GetName() .. 'Text']:SetText(T("options.grid_columns.value", cols))
+            _G[gridSlider:GetName() .. "Text"]:SetText(T("options.grid_columns.value", cols))
         end
 
         -- Button Size
         if EmoteHub.GetButtonSize then
             local size = EmoteHub.GetButtonSize()
             sizeSlider:SetValue(size)
-            _G[sizeSlider:GetName() .. 'Text']:SetText(T("options.button_size.value", size))
+            _G[sizeSlider:GetName() .. "Text"]:SetText(T("options.button_size.value", size))
         end
     end
 
@@ -178,13 +178,13 @@ end
 InitializeOptions()
 
 -- Register the panel with WoW Interface Options
-    if Settings and Settings.RegisterCanvasLayoutCategory then
-        -- Modern Retail (10.0+)
-        local category, layout = Settings.RegisterCanvasLayoutCategory(OptionsPanel, "EmoteHub")
-        Settings.RegisterAddOnCategory(category)
-        -- Also set parent to nil or UIParent for safety in modern UI if previously set to InterfaceOptionsFramePanelContainer
-        OptionsPanel:SetParent(UIParent)
-    else
-        -- Legacy / Classic
-        InterfaceOptions_AddCategory(OptionsPanel)
-    end
+if Settings and Settings.RegisterCanvasLayoutCategory then
+    -- Modern Retail (10.0+)
+    local category, layout = Settings.RegisterCanvasLayoutCategory(OptionsPanel, "EmoteHub")
+    Settings.RegisterAddOnCategory(category)
+    -- Also set parent to nil or UIParent for safety in modern UI if previously set to InterfaceOptionsFramePanelContainer
+    OptionsPanel:SetParent(UIParent)
+else
+    -- Legacy / Classic
+    InterfaceOptions_AddCategory(OptionsPanel)
+end
