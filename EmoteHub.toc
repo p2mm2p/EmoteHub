@@ -6,9 +6,9 @@
 ## Interface-Cata: 40400
 ## Interface-Forever: 16001
 ## Title: EmoteHub
-## Notes: A floating 4x4 emote grid with draggable toggle button for World of Warcraft
+## Notes: A customizable emote action bar with flexible layouts and a draggable toggle button for World of Warcraft
 ## Author: mnzv
-## Version: 0.1.2
+## Version: 0.2.0
 ## SavedVariables: EmoteHubDB
 ## DefaultState: enabled
 ## X-Category: Interface Enhancements

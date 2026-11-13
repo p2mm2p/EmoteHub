@@ -1,12 +1,18 @@
 EMOTEHUB ADDON - INSTALLATION GUIDE
 ===================================
 
+
 INSTALLATION STEPS:
 ==================
 
 1. EXTRACT THE ADDON
    - Place the entire "EmoteHub" folder in your WoW addons directory:
-   - Path: World of Warcraft\_retail_\Interface\AddOns\EmoteHub
+   - Path: World of Warcraft\<client folder>\Interface\AddOns\EmoteHub
+   - Common client folders:
+     - _retail_ (Retail)
+     - _classic_era_ (Classic Era)
+     - _classic_ (Classic progression: BCC, Wrath, Cata, Mists)
+     - _forever_ (Forever)
 
 2. VERIFY FILE STRUCTURE
    Your EmoteHub folder should contain:
@@ -14,29 +20,40 @@ INSTALLATION STEPS:
    - Localization.lua
    - EmoteHub.lua
    - EmoteHub_Options.lua
-   - README.md
-   - INSTALL.txt (this file)
-   - Textures\ (folder for your custom TGA images)
+   - Textures\ (folder for TGA icons)
 
-
-4. LAUNCH WORLD OF WARCRAFT
+3. LAUNCH WORLD OF WARCRAFT
    - Start WoW normally
    - At character selection, click "AddOns" button
    - Find "EmoteHub" in the list and ensure it's CHECKED
    - Click "Okay" and log in to your character
 
-5. FIRST USE
+4. FIRST USE
    - EmoteHub will appear in the center of your screen
-   - Left-click and drag to move it anywhere
+   - Left-click the toggle button to show or hide EmoteHub
+   - Right-click and drag the toggle button to move EmoteHub
    - Use /emotehub or /eh to toggle visibility
+
 
 COMMANDS:
 =========
-/emotehub        - Toggle EmoteHub on/off
-/eh              - Same as above (short version)
-/emotehub show   - Show EmoteHub
-/emotehub hide   - Hide EmoteHub
-/emotehub reset  - Reset position to center screen
+
+/emotehub              - Toggle EmoteHub visibility
+/eh                    - Same as above (short version)
+/emotehub show         - Show EmoteHub
+/emotehub hide         - Hide EmoteHub
+/emotehub reset        - Reset EmoteHub position to center
+/emotehub grid         - Switch to grid layout (default 4 columns)
+/emotehub grid <number> - Set grid with specific columns (1-17)
+/emotehub horizontal   - Switch to horizontal linear layout (1x17)
+/emotehub vertical     - Switch to vertical linear layout (17x1)
+/emotehub layout       - Show current layout setting
+/emotehub small        - Set small button size (32px)
+/emotehub normal       - Set normal button size (36px, default)
+/emotehub large        - Set large button size (40px)
+/emotehub size         - Show current button size
+/emotehub position     - Show current frame and saved position
+/emotehub help         - Show available commands
 
 
 TROUBLESHOOTING:
@@ -54,27 +71,23 @@ SOLUTION:
 - Check if addon is enabled in AddOns menu
 - Try /reload to restart UI
 
-
-PROBLEM: Buttons don't work when clicked
-SOLUTION:
-- This is normal - buttons work via standard action handlers
-- Make sure you're not in combat when testing
-- Try right-click if left-click doesn't work
-
 PROBLEM: EmoteHub disappeared
 SOLUTION:
 - Type /emotehub show
 - If that doesn't work, try /emotehub reset
 
+
 SUPPORT:
 ========
+
 For additional help:
 - Read the README.md file for detailed information
 - Check WoW addon communities and forums
 - Verify your WoW version matches the addon (retail/classic)
 
+
 CUSTOMIZATION:
 ==============
-Advanced users can modify EmoteHub.lua to change which emotes appear on buttons, but this requires Lua knowledge.
 
+Advanced users can modify EmoteHub.lua to change which emotes appear on buttons, but this requires Lua knowledge.
 Always backup your changes before modifying files!

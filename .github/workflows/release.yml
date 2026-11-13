@@ -23,24 +23,49 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Verify tag matches TOC version
-        env:
-          TAG_NAME: ${{ github.ref_name }}
-        run: |
-          version="$(sed -n 's/^## Version:[[:space:]]*//p' EmoteHub.toc | head -n 1)"
-          if [ "v${version}" != "${TAG_NAME}" ]; then
-            echo "Tag ${TAG_NAME} does not match EmoteHub.toc version ${version}" >&2
-            exit 1
-          fi
-
       - name: Build release archive
         run: |
           git archive --format=zip --prefix=EmoteHub/ -o EmoteHub.zip HEAD \
-            EmoteHub.toc '*.lua' README.md INSTALL.txt LICENSE CHANGELOG.md Textures
+            EmoteHub.toc '*.lua' README.md README.zh-CN.md INSTALL.txt INSTALL.zh-CN.txt LICENSE CHANGELOG.md CHANGELOG.zh-CN.md Textures
+
+      - name: Build bilingual release notes
+        env:
+          TAG_NAME: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          version="${TAG_NAME#v}"
+
+          extract_section() {
+            local file="$1"
+
+            awk -v version="$version" '
+              BEGIN { expected = "## [" version "]" }
+              /^## \[/ {
+                if (found) exit
+                if (substr($0, 1, length(expected)) == expected) found = 1
+              }
+              found { print }
+              END {
+                if (!found) {
+                  printf "::error file=%s::No changelog section found for version %s\n", FILENAME, version > "/dev/stderr"
+                  exit 1
+                }
+              }
+            ' "$file"
+          }
+
+          en_notes="$(extract_section CHANGELOG.md)"
+          zh_notes="$(extract_section CHANGELOG.zh-CN.md)"
+
+          {
+            printf '%s\n' "$en_notes"
+            printf '\n\n---\n\n'
+            printf '%s\n' "$zh_notes"
+          } > RELEASE_NOTES.md
 
       - name: Create GitHub Release
         run: |
           gh release create "$GITHUB_REF_NAME" \
             --title "$GITHUB_REF_NAME" \
-            --notes-file CHANGELOG.md \
+            --notes-file RELEASE_NOTES.md \
             ./EmoteHub.zip

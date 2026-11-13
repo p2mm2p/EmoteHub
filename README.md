@@ -1,3 +1,5 @@
+[English](README.md) | [简体中文](README.zh-CN.md)
+
 # EmoteHub - World of Warcraft Addon
 
 A customizable emote action bar addon for World of Warcraft that allows you to quickly access your favorite emotes with custom icons. Features multiple layout options including flexible grid sizes, horizontal linear, and vertical linear arrangements.
@@ -6,7 +8,7 @@ A customizable emote action bar addon for World of Warcraft that allows you to q
 
 - 16 emote buttons plus integrated toggle button
 - Three layout options: flexible grid, horizontal linear (1x17), or vertical linear (17x1)
-- Drag and drop to reposition the frame
+- Right-click drag the toggle button to reposition the frame
 - Show/hide with slash commands
 
 - Persistent position, visibility, and layout settings
@@ -36,7 +38,14 @@ To add another language:
 
 2. Launch World of Warcraft and enable the addon in the AddOns menu
 
-3. The EmoteHub will appear in the center of your screen when you log in
+3. EmoteHub will appear in the center of your screen when you log in
+
+The folder after `World of Warcraft\` depends on your client:
+
+- `_retail_`: Retail
+- `_classic_era_`: Classic Era
+- `_classic_`: Classic progression (BCC, Wrath, Cata, Mists)
+- `_forever_`: Forever
 
 ## Commands
 
@@ -53,6 +62,7 @@ To add another language:
 - `/emotehub normal` - Set normal button size (36px, default)
 - `/emotehub large` - Set large button size (40px)
 - `/emotehub size` - Show current button size
+- `/emotehub position` - Show current frame and saved position
 - `/emotehub help` - Show available commands
 
 ## Default Emotes
@@ -136,28 +146,26 @@ EmoteHub supports three button size options:
 
 **Important**: The toggle button is always visible regardless of whether the action buttons are shown or hidden.
 
-### All Layouts - Universal Dragging
-- **Toggle Button Dragging**: Right-click and drag the toggle button to move the entire EmoteHub anywhere on screen
-- **Frame Dragging**: Left-click and drag anywhere on the action buttons frame (all layouts)
-- **Always Available**: Toggle button remains visible even when action buttons are hidden
+### All Layouts
+- **Toggle Visibility**: Left-click the toggle button to show or hide the action buttons
+- **Move EmoteHub**: Right-click and drag the toggle button to move the entire addon anywhere on screen
+- **Always Available**: The toggle button remains visible even when the action buttons are hidden
 
 ### Grid Layout (Flexible)
 - **Toggle Integration**: Toggle button is the last item in the grid arrangement
 - **Always Visible**: Toggle button remains visible even when action buttons are hidden
 - **Flexible Sizing**: Supports 1-17 columns (affects grid shape)
-- **Movement**: Right-click drag toggle button or left-click drag frame to move everything
+- **Movement**: Right-click drag the toggle button to move the entire addon
 - **Auto-Save**: Frame position is automatically saved when you stop dragging
 
 ### Horizontal/Vertical Layouts  
 - **Integrated Design**: Toggle button becomes the first element of the action bar
-- **Dual Drag Options**: 
-  - Right-click drag the toggle button to move the entire bar
-  - Left-click drag anywhere on the frame to move the entire bar
+- **Movement**: Right-click drag the toggle button to move the entire bar
 - **Unity**: Toggle button and action buttons move together as one unit
 
 ### General
 - **Auto-Save**: Frame position is automatically saved when you stop dragging
-- **Persistent Position**: Position is saved to your character's saved variables and persists across /reload and game restarts
+- **Persistent Position**: Position is saved to account-wide saved variables (`EmoteHubDB`) and persists across `/reload` and game restarts
 - **Reset Position**: Use `/emotehub reset` to return to center screen
 
 ## Troubleshooting
@@ -173,15 +181,14 @@ EmoteHub supports three button size options:
    - Use `/emotehub reset` to intentionally reset to center
 5. **Dragging Issues**: 
    - All layouts: Right-click drag the toggle button to move EmoteHub
-   - Horizontal/Vertical: Also supports left-click drag anywhere on the frame
-   - If dragging doesn't work, try clicking directly on the toggle button
+   - If dragging doesn't work, try right-clicking directly on the toggle button
 6. **Toggle Button Visibility**: 
    - Grid layout: Toggle button stays visible when actions are hidden for easy re-access
    - Linear layouts: Toggle button is part of the visible bar
 
 ### Addon Not Loading
 1. Check that the folder is named exactly `EmoteHub`
-2. Ensure all files are present: `EmoteHub.toc`, `EmoteHub.lua`, `EmoteHubFrame.xml`
+2. Ensure all files are present: `EmoteHub.toc`, `Localization.lua`, `EmoteHub.lua`, `EmoteHub_Options.lua`, and `Textures\`
 3. Verify the addon is enabled in the AddOns menu
 4. Check for error messages in the chat window
 
@@ -197,30 +204,13 @@ EmoteHub/
 ├── EmoteHub.lua          # Main addon logic
 ├── EmoteHub_Options.lua  # Interface options panel
 ├── README.md             # This file
+├── README.zh-CN.md       # Simplified Chinese documentation
+├── INSTALL.txt           # Installation and troubleshooting guide
+├── INSTALL.zh-CN.txt     # Simplified Chinese installation guide
+├── CHANGELOG.md          # English release notes
+├── CHANGELOG.zh-CN.md    # Simplified Chinese release notes
+├── LICENSE               # MIT license
 └── Textures/             # Icon folder
-
-## Version History
-- **v0.1.2**: Layout Options Update
-  - Mist of Pandaria Classic support added
-
-- **v0.1.1**: Layout Options Update
-  - Added horizontal linear layout (1x17)
-  - Added vertical linear layout (17x1)
-  - Layout switching commands
-  - Persistent layout settings
-  - Toggle button always visible functionality
-  - Updated help system
-  - Changed default button size to 36px (from 40px)
-  - Added button size commands: small (32px), normal (36px), large (40px)
-  - Button size changes apply instantly to all layouts
-  - Enhanced customization options
-  - Improved space efficiency with smaller default size
-
-- **v0.1.0**: Initial release
-  - 4x4 emote grid
-  - Drag and drop positioning
-  - Show/hide commands
-  - Saved settings
 
 ## Support
 
@@ -228,4 +218,4 @@ For issues or feature requests, please check the addon's page on your preferred 
 
 ## License
 
-This addon is provided as-is for personal use. Feel free to modify and customize for your own needs.
+This addon is licensed under the [MIT License](LICENSE).

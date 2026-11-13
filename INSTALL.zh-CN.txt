@@ -1,0 +1,93 @@
+EMOTEHUB 插件 - 安装指南
+================================
+
+
+安装步骤：
+==================
+
+1. 解压插件
+   - 将整个 "EmoteHub" 文件夹放入 World of Warcraft 插件目录：
+   - 路径：World of Warcraft\<client folder>\Interface\AddOns\EmoteHub
+   - 常见客户端目录：
+     - _retail_（正式服）
+     - _classic_era_（经典旧世）
+     - _classic_（怀旧服进度版本：燃烧的远征、巫妖王之怒、大灾变、熊猫人之谜）
+     - _forever_（无限，Forever）
+
+2. 检查文件结构
+   EmoteHub 文件夹应包含：
+   - EmoteHub.toc
+   - Localization.lua
+   - EmoteHub.lua
+   - EmoteHub_Options.lua
+   - Textures\（TGA 图标文件夹）
+
+3. 启动 World of Warcraft
+   - 正常启动 World of Warcraft。
+   - 在角色选择界面点击“插件”。
+   - 在列表中找到“EmoteHub”，确认已勾选。
+   - 点击“确定”，登录角色。
+
+4. 首次使用
+   - EmoteHub 会显示在屏幕中央。
+   - 左键单击切换按钮，显示或隐藏 EmoteHub。
+   - 右键拖动切换按钮，移动 EmoteHub。
+   - 输入 /emotehub 或 /eh 切换显示状态。
+
+
+命令：
+=========
+
+/emotehub              - 显示或隐藏 EmoteHub
+/eh                    - 同上（短命令）
+/emotehub show         - 显示 EmoteHub
+/emotehub hide         - 隐藏 EmoteHub
+/emotehub reset        - 将位置重置到屏幕中央
+/emotehub grid         - 切换到网格布局（默认 4 列）
+/emotehub grid <number> - 设置网格列数（1-17）
+/emotehub horizontal   - 切换到横向单行布局（1x17）
+/emotehub vertical     - 切换到纵向单列布局（17x1）
+/emotehub layout       - 显示当前布局设置
+/emotehub small        - 设置小号按钮（32 像素）
+/emotehub normal       - 设置普通按钮（36 像素，默认）
+/emotehub large        - 设置大号按钮（40 像素）
+/emotehub size         - 显示当前按钮尺寸
+/emotehub position     - 显示当前框架位置和已保存位置
+/emotehub help         - 显示可用命令
+
+
+故障排除：
+===============
+
+问题：插件未出现在插件列表中
+解决：
+- 检查文件夹名称是否为 "EmoteHub"。
+- 确认 EmoteHub.toc 文件存在。
+- 完全重启 World of Warcraft。
+
+问题：登录后不显示 EmoteHub
+解决：
+- 在聊天框输入 /emotehub show。
+- 检查插件菜单中是否已启用 EmoteHub。
+- 运行 /reload 刷新界面。
+
+问题：EmoteHub 消失
+解决：
+- 输入 /emotehub show。
+- 如果仍不显示，输入 /emotehub reset。
+
+
+支持：
+========
+
+更多帮助：
+- 阅读 README.md 了解详细信息。
+- 查看 World of Warcraft 插件社区和论坛。
+- 确认 World of Warcraft 版本与插件匹配（正式服/怀旧服）。
+
+
+自定义：
+==============
+
+高级用户可修改 EmoteHub.lua，更改按钮上的表情。这需要 Lua 知识。
+修改文件前先备份。
