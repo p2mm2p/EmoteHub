@@ -198,6 +198,7 @@ EmoteHub supports three button size options:
 
 ## File Structure
 
+```text
 EmoteHub/
 ├── EmoteHub.toc          # Addon metadata and load order
 ├── Localization.lua      # Language selection and translations
@@ -211,6 +212,7 @@ EmoteHub/
 ├── CHANGELOG.zh-CN.md    # Simplified Chinese release notes
 ├── LICENSE               # MIT license
 └── Textures/             # Icon folder
+```
 
 ## Support
 

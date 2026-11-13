@@ -195,6 +195,7 @@ EmoteHub 支持 3 种按钮尺寸。
 
 ## 文件结构
 
+```text
 EmoteHub/
 ├── EmoteHub.toc          # 插件元数据和加载顺序
 ├── Localization.lua      # 语言选择和翻译
@@ -208,6 +209,7 @@ EmoteHub/
 ├── CHANGELOG.zh-CN.md    # 简体中文发布说明
 ├── LICENSE               # MIT 许可证
 └── Textures/             # 图标文件夹
+```
 
 ## 支持
 
