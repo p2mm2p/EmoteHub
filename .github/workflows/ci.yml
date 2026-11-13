@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Lua 5.1
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lua5.1
+
+      - name: Check Lua 5.1 syntax
+        run: luac5.1 -p Localization.lua EmoteHub.lua EmoteHub_Options.lua
+
+      - name: Check StyLua formatting
+        run: npx --yes @johnnymorganz/stylua-bin@2.6.0 --check Localization.lua EmoteHub.lua EmoteHub_Options.lua
