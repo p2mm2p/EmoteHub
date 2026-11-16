@@ -3,8 +3,10 @@ EMOTEHUB TEXTURES - TGA IMAGE GUIDE
 
 This folder is where you should place your custom TGA texture files for EmoteHub icons.
 
+
 REQUIRED FILES:
 ===============
+
 For the addon to display custom icons, place these TGA files in this folder:
 
 - wave.tga      (Wave emote)
@@ -24,14 +26,17 @@ For the addon to display custom icons, place these TGA files in this folder:
 - thank.tga     (Thank emote)
 - yes.tga       (Yes emote)
 
+
 TGA FORMAT SPECIFICATIONS:
 ==========================
+
 - Format: TGA (Targa Image Format)
 - Recommended Size: 32x32 pixels
 - Alternative Sizes: 64x64 or 128x128 pixels also work
 - Color Depth: 24-bit (RGB) or 32-bit (RGBA with transparency)
 - Compression: Uncompressed or RLE compressed
 - File Extension: Must be .tga (lowercase recommended)
+
 
 CREATING TGA FILES:
 ===================
@@ -64,16 +69,20 @@ Use tools like:
 - MPQ Editors
 To extract existing game icons and convert to TGA
 
+
 DESIGN TIPS:
 ============
+
 - Keep designs simple and recognizable at small sizes
 - Use high contrast colors for visibility
 - Consider the dark UI background when choosing colors
 - Test transparency with 32-bit TGA if needed
 - Make icons square (same width and height)
 
+
 ICON SOURCES:
 =============
+
 You can create icons representing:
 - Hand gestures (wave, point, etc.)
 - Facial expressions (smile, cry, etc.)
@@ -81,6 +90,7 @@ You can create icons representing:
 - Abstract symbols representing emotions
 - Simplified character poses
 - Custom artistic interpretations
+
 
 TROUBLESHOOTING:
 ================
@@ -101,15 +111,19 @@ File size concerns?
 - Larger sizes increase memory usage
 - Stick to recommended 32x32 for best performance
 
+
 FALLBACK BEHAVIOR:
 ==================
+
 If TGA files are missing, EmoteHub will show:
 - Default question mark icons
 - Buttons will still function with emote commands
 - No visual errors, just generic placeholder icons
 
+
 ADVANCED CUSTOMIZATION:
 =======================
+
 To use different emotes or add more buttons:
 1. Edit EmoteHub.lua file
 2. Modify the EmoteHub.emotes table
@@ -118,8 +132,10 @@ To use different emotes or add more buttons:
 
 Remember: Always backup your files before making changes!
 
+
 EXAMPLES OF GOOD TGA ICONS:
 ===========================
+
 - Simple, bold designs
 - Clear at 32x32 resolution
 - Appropriate color schemes
