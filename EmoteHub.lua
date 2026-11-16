@@ -128,6 +128,56 @@ local function GetFrameDimensions()
     return frameWidth, frameHeight
 end
 
+-- Ensure toggle button is always visible regardless of frame state
+local function EnsureToggleButtonVisible()
+    if toggleButton then
+        -- Update toggle button size to match current button size
+        local buttonSize = EmoteHubDB.buttonSize or 36
+        toggleButton:SetSize(buttonSize, buttonSize)
+        toggleButton:Show()
+        toggleButton:SetFrameStrata("HIGH")
+        toggleButton:SetFrameLevel(100)
+        -- Ensure parent is UIParent so it doesn't get hidden with frame
+        toggleButton:SetParent(UIParent)
+    end
+end
+
+-- Position toggle button within frame based on layout
+local function PositionToggleButtonInFrame()
+    if not toggleButton or not frame then return end
+
+    local buttonSize = EmoteHubDB.buttonSize or 36
+    local spacing = EmoteHubDB.spacing or 2
+    local layout = EmoteHubDB.layout or "grid"
+
+    -- Update toggle button size to match action buttons
+    toggleButton:SetSize(buttonSize, buttonSize)
+
+    -- Always parent to UIParent so toggle button stays visible when frame is hidden
+    toggleButton:SetParent(UIParent)
+    toggleButton:ClearAllPoints()
+
+    if layout == "horizontal" then
+        -- Toggle button is first element (leftmost) - anchor to frame's left
+        toggleButton:SetPoint("LEFT", frame, "LEFT", 0, 0)
+    elseif layout == "vertical" then
+        -- Toggle button is first element (topmost) - anchor to frame's top
+        toggleButton:SetPoint("TOP", frame, "TOP", 0, 0)
+    else -- grid (default)
+        -- Toggle button is last item in grid (position 17) - anchor to frame with offset
+        local gridColumns = EmoteHubDB.gridColumns or 4
+        local buttonPosition = 17 -- Last position after 16 emote buttons
+        local row = math.floor((buttonPosition - 1) / gridColumns)
+        local col = (buttonPosition - 1) % gridColumns
+        local x = col * (buttonSize + spacing)
+        local y = -(row * (buttonSize + spacing))
+        toggleButton:SetPoint("TOPLEFT", frame, "TOPLEFT", x, y)
+    end
+
+    -- Always ensure toggle button is visible and at proper level
+    EnsureToggleButtonVisible()
+end
+
 -- Create invisible anchor frame (no background, just positioning)
 local function CreateMainFrame()
     if frame then
@@ -232,42 +282,6 @@ local function CreateToggleButton()
     end)
 
     return toggleButton
-end
-
--- Position toggle button within frame based on layout
-local function PositionToggleButtonInFrame()
-    if not toggleButton or not frame then return end
-
-    local buttonSize = EmoteHubDB.buttonSize or 36
-    local spacing = EmoteHubDB.spacing or 2
-    local layout = EmoteHubDB.layout or "grid"
-
-    -- Update toggle button size to match action buttons
-    toggleButton:SetSize(buttonSize, buttonSize)
-
-    -- Always parent to UIParent so toggle button stays visible when frame is hidden
-    toggleButton:SetParent(UIParent)
-    toggleButton:ClearAllPoints()
-
-    if layout == "horizontal" then
-        -- Toggle button is first element (leftmost) - anchor to frame's left
-        toggleButton:SetPoint("LEFT", frame, "LEFT", 0, 0)
-    elseif layout == "vertical" then
-        -- Toggle button is first element (topmost) - anchor to frame's top
-        toggleButton:SetPoint("TOP", frame, "TOP", 0, 0)
-    else -- grid (default)
-        -- Toggle button is last item in grid (position 17) - anchor to frame with offset
-        local gridColumns = EmoteHubDB.gridColumns or 4
-        local buttonPosition = 17 -- Last position after 16 emote buttons
-        local row = math.floor((buttonPosition - 1) / gridColumns)
-        local col = (buttonPosition - 1) % gridColumns
-        local x = col * (buttonSize + spacing)
-        local y = -(row * (buttonSize + spacing))
-        toggleButton:SetPoint("TOPLEFT", frame, "TOPLEFT", x, y)
-    end
-
-    -- Always ensure toggle button is visible and at proper level
-    EnsureToggleButtonVisible()
 end
 
 -- Create emote buttons
@@ -377,6 +391,41 @@ local function CreateButtons()
     EnsureToggleButtonVisible()
 end
 
+-- Position frame based on saved settings
+local function PositionFrameRelativeToToggle()
+    if not frame then return end
+
+    -- Use saved position or default to center
+    local pos = EmoteHubDB.framePosition
+    if pos and pos.point then
+        frame:ClearAllPoints()
+        frame:SetPoint(pos.point, UIParent, pos.relativePoint, pos.xOfs, pos.yOfs)
+    else
+        frame:ClearAllPoints()
+        frame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
+    end
+end
+
+-- Set frame visibility
+local function SetVisibility(visible)
+    if not frame then return end
+
+    isVisible = visible
+    EmoteHubDB.isVisible = visible
+
+    if visible then
+        frame:Show()
+    else
+        frame:Hide()
+    end
+
+    -- Always keep toggle button visible regardless of frame state
+    EnsureToggleButtonVisible()
+
+    -- Update toggle button position to maintain visual connection
+    PositionToggleButtonInFrame()
+end
+
 -- Update layout and recreate UI
 local function UpdateLayout(newLayout)
     if not newLayout or (newLayout ~= "grid" and newLayout ~= "horizontal" and newLayout ~= "vertical") then
@@ -427,20 +476,6 @@ local function UpdateLayout(newLayout)
     print("|cFF00FF00EmoteHub|r: " .. T("chat.layout_changed", newLayout))
 end
 
--- Ensure toggle button is always visible regardless of frame state
-local function EnsureToggleButtonVisible()
-    if toggleButton then
-        -- Update toggle button size to match current button size
-        local buttonSize = EmoteHubDB.buttonSize or 36
-        toggleButton:SetSize(buttonSize, buttonSize)
-        toggleButton:Show()
-        toggleButton:SetFrameStrata("HIGH")
-        toggleButton:SetFrameLevel(100)
-        -- Ensure parent is UIParent so it doesn't get hidden with frame
-        toggleButton:SetParent(UIParent)
-    end
-end
-
 -- Save frame position
 function SaveFramePosition()
     if not frame then return end
@@ -462,44 +497,9 @@ function SavePosition()
     SaveFramePosition()
 end
 
--- Position frame based on saved settings
-local function PositionFrameRelativeToToggle()
-    if not frame then return end
-
-    -- Use saved position or default to center
-    local pos = EmoteHubDB.framePosition
-    if pos and pos.point then
-        frame:ClearAllPoints()
-        frame:SetPoint(pos.point, UIParent, pos.relativePoint, pos.xOfs, pos.yOfs)
-    else
-        frame:ClearAllPoints()
-        frame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
-    end
-end
-
 -- Restore frame position from saved settings
 local function RestorePosition()
     PositionFrameRelativeToToggle()
-end
-
--- Set frame visibility
-local function SetVisibility(visible)
-    if not frame then return end
-
-    isVisible = visible
-    EmoteHubDB.isVisible = visible
-
-    if visible then
-        frame:Show()
-    else
-        frame:Hide()
-    end
-
-    -- Always keep toggle button visible regardless of frame state
-    EnsureToggleButtonVisible()
-
-    -- Update toggle button position to maintain visual connection
-    PositionToggleButtonInFrame()
 end
 
 -- Toggle frame visibility
